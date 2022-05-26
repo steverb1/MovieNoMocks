@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 public class MovieDaoTest {
 	@Test
-	public void test1() {
-		MovieDao movieDao = new MovieDao();
-		movieDao.InsertMovie("The Princess Bride", 1987);
+	public void testInsertMovie() {
+		MovieDao movieDao = MovieDao.createNull();
+		movieDao.insertMovie("The Princess Bride", 1987);
 	}
 }
