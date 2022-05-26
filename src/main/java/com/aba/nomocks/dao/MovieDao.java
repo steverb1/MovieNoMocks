@@ -48,12 +48,17 @@ import com.mongodb.client.result.UpdateResult;
 public class MovieDao {
 	static String uri = "mongodb://127.0.0.1:27017";
 	static String databaseName = "moviedb";
+	static String collectionName = "movies";
 	MongoCollection<Document> collection;
+	
+	private String lastSavedTitle;
+	private int lastSavedYear;
 	
 	public static MovieDao create() {
 		MongoClient client = MongoClients.create(uri);
 		MongoDatabase database = client.getDatabase(databaseName);
-		MongoCollection<Document> collection = database.getCollection("movies");
+		MongoCollection<Document> collection = database.getCollection(collectionName);
+		
 		return new MovieDao(collection);
 	}
 	
@@ -68,6 +73,17 @@ public class MovieDao {
 				.append("year", year);
 		
 		InsertOneResult result = collection.insertOne(aMovie);
+		
+		lastSavedTitle = title;
+		lastSavedYear = year;
+	}
+	
+	public String getLastSavedTitle() {
+		return lastSavedTitle;
+	}
+	
+	public int getLastSavedYear() {
+		return lastSavedYear;
 	}
 	
 	private MovieDao(MongoCollection<Document> collection) {
@@ -76,7 +92,6 @@ public class MovieDao {
 }
 
 class NullMongoCollection implements MongoCollection<Document> {
-
 	@Override
 	public MongoNamespace getNamespace() {
 		return null;
