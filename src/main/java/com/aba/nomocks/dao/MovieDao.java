@@ -7,6 +7,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.aba.nomocks.biz.Movie;
 import com.mongodb.MongoNamespace;
 import com.mongodb.ReadConcern;
 import com.mongodb.ReadPreference;
@@ -51,8 +52,7 @@ public class MovieDao {
 	static String collectionName = "movies";
 	MongoCollection<Document> collection;
 	
-	private String lastSavedTitle;
-	private int lastSavedYear;
+	private Movie lastWrite;
 	
 	public static MovieDao create() {
 		MongoClient client = MongoClients.create(uri);
@@ -66,24 +66,19 @@ public class MovieDao {
 		return new MovieDao(new NullMongoCollection());
 	}
 	
-	public void insertMovie(String title, int year) {
+	public void insertMovie(Movie movie) {
 		Document aMovie = new Document()
 				.append("_id", new ObjectId())
-				.append("title", title)
-				.append("year", year);
+				.append("title", movie.title)
+				.append("year", movie.year);
 		
 		InsertOneResult result = collection.insertOne(aMovie);
 		
-		lastSavedTitle = title;
-		lastSavedYear = year;
+		lastWrite = new Movie(movie.title, movie.year);
 	}
 	
-	public String getLastSavedTitle() {
-		return lastSavedTitle;
-	}
-	
-	public int getLastSavedYear() {
-		return lastSavedYear;
+	public Movie getLastWrite() {
+		return lastWrite;
 	}
 	
 	private MovieDao(MongoCollection<Document> collection) {

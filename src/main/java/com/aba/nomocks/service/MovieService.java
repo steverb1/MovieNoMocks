@@ -1,5 +1,6 @@
 package com.aba.nomocks.service;
 
+import com.aba.nomocks.biz.Movie;
 import com.aba.nomocks.dao.MovieDao;
 
 public class MovieService {
@@ -9,7 +10,7 @@ public class MovieService {
 		this.movieDao = movieDao;
 	}
 	
-	public void saveMovie(String title, int year) {
-		movieDao.insertMovie(title, year);
+	public void saveMovie(Movie movie) {
+		movieDao.insertMovie(movie);
 	}
 }
