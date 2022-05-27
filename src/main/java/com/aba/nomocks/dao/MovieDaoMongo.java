@@ -8,6 +8,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.aba.nomocks.biz.Movie;
+import com.aba.nomocks.service.ForPersistingMovies;
 import com.mongodb.MongoNamespace;
 import com.mongodb.ReadConcern;
 import com.mongodb.ReadPreference;
@@ -46,7 +47,7 @@ import com.mongodb.client.result.InsertManyResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 
-public class MovieDao {
+public class MovieDaoMongo implements ForPersistingMovies {
 	static String uri = "mongodb://127.0.0.1:27017";
 	static String databaseName = "moviedb";
 	static String collectionName = "movies";
@@ -54,19 +55,19 @@ public class MovieDao {
 	
 	private Movie lastWrite;
 	
-	public static MovieDao create() {
+	public static MovieDaoMongo create() {
 		MongoClient client = MongoClients.create(uri);
 		MongoDatabase database = client.getDatabase(databaseName);
 		MongoCollection<Document> collection = database.getCollection(collectionName);
 		
-		return new MovieDao(collection);
+		return new MovieDaoMongo(collection);
 	}
 	
-	public static MovieDao createNull() {
-		return new MovieDao(new NullMongoCollection());
+	public static MovieDaoMongo createNull() {
+		return new MovieDaoMongo(new NullMongoCollection());
 	}
 	
-	public void insertMovie(Movie movie) {
+	public void saveMovie(Movie movie) {
 		Document aMovie = new Document()
 				.append("_id", new ObjectId())
 				.append("title", movie.title)
@@ -81,7 +82,7 @@ public class MovieDao {
 		return lastWrite;
 	}
 	
-	private MovieDao(MongoCollection<Document> collection) {
+	private MovieDaoMongo(MongoCollection<Document> collection) {
 		this.collection = collection;
 	}
 }

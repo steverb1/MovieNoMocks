@@ -1,16 +1,16 @@
 package com.aba.nomocks.service;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDao;
+import com.aba.nomocks.dao.MovieDaoMongo;
 
 public class MovieService {
-	MovieDao movieDao;
+	MovieDaoMongo movieDao;
 	
-	public MovieService(MovieDao movieDao) {
+	public MovieService(MovieDaoMongo movieDao) {
 		this.movieDao = movieDao;
 	}
 	
 	public void saveMovie(Movie movie) {
-		movieDao.insertMovie(movie);
+		movieDao.saveMovie(movie);
 	}
 }
