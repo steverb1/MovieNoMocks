@@ -8,6 +8,6 @@ public class MovieDaoTest {
 	@Test
 	public void testInsertMovie() {
 		MovieDaoMongo movieDao = MovieDaoMongo.create();  // Real dao, just to see if mongodb is working.
-		movieDao.saveMovie(new Movie("The Princess Bride", 1987));
+		movieDao.saveMovie(new Movie("Bladerunner", 1982));
 	}
 }
