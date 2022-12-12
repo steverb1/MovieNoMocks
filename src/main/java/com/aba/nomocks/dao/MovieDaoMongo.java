@@ -57,14 +57,12 @@ public class MovieDaoMongo implements ForPersistingMovies {
 			mongoCollection = database.getCollection(collectionName);;
 		}
 		
-		@Override
 		public InsertOneResult insertOne(Document document) {
 			return mongoCollection.insertOne(document);
 		}
 	}
 	
 	static class MongoStub implements ForWrappingMongo {
-		@Override
 		public InsertOneResult insertOne(Document document) {
 			return null;
 		}
