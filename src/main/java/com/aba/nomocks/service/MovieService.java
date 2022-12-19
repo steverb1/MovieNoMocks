@@ -13,4 +13,8 @@ public class MovieService {
 	public void saveMovie(Movie movie) {
 		movieDao.saveMovie(movie);
 	}
+
+	public Movie retrieveMovie(String title, int year) {
+		return movieDao.retrieveMovie(title, year);
+	}
 }

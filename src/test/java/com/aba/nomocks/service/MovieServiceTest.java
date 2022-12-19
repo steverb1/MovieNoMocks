@@ -12,9 +12,21 @@ public class MovieServiceTest {
 	public void testSaveMovie() {
 		MovieDaoMongo movieDao = MovieDaoMongo.createNull();
 		MovieService service = new MovieService(movieDao);
-		service.saveMovie(new Movie("Bladerunner", 1982));
+		service.saveMovie(new Movie("The Kid", 2000));
 		
-		assertEquals("Bladerunner", movieDao.getLastWrite().title);
-		assertEquals(1982, movieDao.getLastWrite().year);
+		assertEquals("The Kid", movieDao.getLastWrite().title);
+		assertEquals(2000, movieDao.getLastWrite().year);
+	}
+	
+	@Test
+	public void testRetrieveMovie() {
+		MovieDaoMongo movieDao = MovieDaoMongo.createNull();
+		MovieService service = new MovieService(movieDao);
+		service.saveMovie(new Movie("Return to Me", 2000));
+		
+		Movie retrievedMovie = service.retrieveMovie("Return to Me", 2000);
+		
+		assertEquals("Return to Me", retrievedMovie.title);
+		assertEquals(2000, retrievedMovie.year);
 	}
 }
