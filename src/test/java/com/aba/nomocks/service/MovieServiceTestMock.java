@@ -6,12 +6,12 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDaoMongo;
+import com.aba.nomocks.dao.MovieDao;
 
 public class MovieServiceTestMock {
 	@Test
 	public void canTestServiceWithMock() {
-		MovieDaoMongo movieDao = Mockito.mock(MovieDaoMongo.class);
+		MovieDao movieDao = Mockito.mock(MovieDao.class);
 		MovieService service = new MovieService(movieDao);
 		
 		Movie movie = new Movie("The Princess Bride", 1987);

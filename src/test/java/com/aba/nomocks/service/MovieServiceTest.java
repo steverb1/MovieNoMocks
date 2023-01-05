@@ -5,12 +5,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDaoMongo;
+import com.aba.nomocks.dao.MovieDao;
 
 public class MovieServiceTest {
 	@Test
 	public void testSaveMovie() {
-		MovieDaoMongo movieDao = MovieDaoMongo.createNull();
+		MovieDao movieDao = MovieDao.createNull();
 		MovieService service = new MovieService(movieDao);
 		service.saveMovie(new Movie("The Kid", 2000));
 		
@@ -20,7 +20,7 @@ public class MovieServiceTest {
 	
 	@Test
 	public void testRetrieveMovie() {
-		MovieDaoMongo movieDao = MovieDaoMongo.createNull();
+		MovieDao movieDao = MovieDao.createNull();
 		MovieService service = new MovieService(movieDao);
 		service.saveMovie(new Movie("Return to Me", 2000));
 		

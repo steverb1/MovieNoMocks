@@ -19,7 +19,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.InsertOneResult;
 
-public class MovieDaoMongo implements ForPersistingMovies {
+public class MovieDao implements ForPersistingMovies {
 	static String uri = "mongodb://127.0.0.1:27017";
 	static String databaseName = "moviedb";
 	static String collectionName = "movies";
@@ -28,23 +28,26 @@ public class MovieDaoMongo implements ForPersistingMovies {
 	
 	private ForWrappingMongo mongo;
 	
-	public static MovieDaoMongo create() {
-		return new MovieDaoMongo(new MongoWrapper());
+	public static MovieDao create() {
+		return new MovieDao(new MongoWrapper());
 	}
 	
-	public static MovieDaoMongo createNull() {
-		return new MovieDaoMongo(new MongoStub());
+	public static MovieDao createNull() {
+		return new MovieDao(new MongoStub());
 	}
 	
 	public void saveMovie(Movie movie) {
+		String title = movie.title;
+		int year = movie.year;
+		
 		Document aMovie = new Document()
 				.append("_id", new ObjectId())
-				.append("title", movie.title)
-				.append("year", movie.year);
+				.append("title", title)
+				.append("year", year);
 		
 		InsertOneResult result = mongo.insertOne(aMovie);
 		
-		lastWrite = new Movie(movie.title, movie.year);
+		lastWrite = new Movie(title, year);
 	}
 	
 	public Movie retrieveMovie(String title, int year) {
@@ -57,7 +60,7 @@ public class MovieDaoMongo implements ForPersistingMovies {
 		return lastWrite;
 	}
 	
-	private MovieDaoMongo(ForWrappingMongo mongo) {
+	MovieDao(ForWrappingMongo mongo) {
 		this.mongo = mongo;
 	}
 	
