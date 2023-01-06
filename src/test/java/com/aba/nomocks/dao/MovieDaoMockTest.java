@@ -2,6 +2,7 @@ package com.aba.nomocks.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ public class MovieDaoMockTest {
 		when(mongoMock.insertOne(movie)).thenReturn("123");
 		String movieId = dao.saveMovie(movie );
 		assertNotNull(movieId);
+		assertTrue(movieId != "");
 		
 		verify(mongoMock, times(1)).insertOne(movie);
 		
