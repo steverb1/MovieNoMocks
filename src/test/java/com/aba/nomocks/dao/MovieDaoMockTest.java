@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 
