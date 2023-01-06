@@ -34,7 +34,11 @@ public class MovieDao implements ForPersistingMovies {
 	}
 	
 	public String saveMovie(Movie movie) {
-		String id = mongo.insertOne(movie);
+		Document document = new Document()
+				.append("_id", new ObjectId())
+				.append("title", movie.title)
+				.append("year", movie.year);
+		String id = mongo.insertOne(document);
 		
 		lastWrite = new Movie(movie.title, movie.year);
 		
@@ -42,7 +46,8 @@ public class MovieDao implements ForPersistingMovies {
 	}
 	
 	public Movie retrieveMovie(String title, int year) {
-		return mongo.find(title, year);
+		Document document = mongo.find(title, year);
+		return new Movie(document.getString("title"), document.getInteger("year"));
 	}
 
 	public Movie getLastWrite() {
@@ -63,35 +68,33 @@ public class MovieDao implements ForPersistingMovies {
 			mongoCollection = database.getCollection(collectionName);;
 		}
 		
-		public String insertOne(Movie movie) {
-			Document document = new Document()
-					.append("_id", new ObjectId())
-					.append("title", movie.title)
-					.append("year", movie.year);
+		public String insertOne(Document document) {
 			InsertOneResult result = mongoCollection.insertOne(document);
 			return result.getInsertedId().toString();
 		}
 
-		public Movie find(String title, int year) {
+		public Document find(String title, int year) {
 			Bson projectionFields = Projections.fields(Projections.include("title", "year"));
-			Document document = mongoCollection.find(and(eq("title", title), eq("year", year))).projection(projectionFields).first();
-			return new Movie(document.getString("title"), document.getInteger("year"));
+			return mongoCollection.find(and(eq("title", title), eq("year", year))).projection(projectionFields).first();
 		}
 	}
 	
 	static class MongoStub implements ForWrappingMongo {
-		public String insertOne(Movie movie) {
+		public String insertOne(Document document) {
 			return new ObjectId().toString();
 		}
 
-		public Movie find(String title, int year) {
-			return new Movie(title, year);
+		public Document find(String title, int year) {
+			return new Document()
+					.append("_id", new ObjectId())
+					.append("title", title)
+					.append("year", year);
 		}
 	}
 	
 	interface ForWrappingMongo {
-		String insertOne(Movie movie);
+		String insertOne(Document document);
 
-		Movie find(String title, int year);
+		Document find(String title, int year);
 	}
 }
