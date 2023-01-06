@@ -1,5 +1,6 @@
 package com.aba.nomocks.dao;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import org.bson.Document;
@@ -11,7 +12,7 @@ import com.aba.nomocks.dao.MovieDao.ForWrappingMongo;
 
 public class MovieDaoMockTest {
 	@Test
-	public void testSaveMovieWithMock() {
+	public void testSaveAndRetrieveMovieWithMock() {
 		ForWrappingMongo mongoMock = mock(ForWrappingMongo.class);
 		MovieDao dao = new MovieDao(mongoMock);
 		
@@ -22,6 +23,12 @@ public class MovieDaoMockTest {
 				.append("title", "Fred Clause")
 				.append("year", 2007);
 		verify(mongoMock, times(1)).insertOne(argThat(new DocumentMatcher(aMovie)));
+		
+		when(mongoMock.find("Fred Clause", 2007)).thenReturn(aMovie);
+		Movie retrievedMovie = dao.retrieveMovie("Fred Clause", 2007);
+		assertEquals("Fred Clause", retrievedMovie.title);
+		assertEquals(2007, retrievedMovie.year);
+		verify(mongoMock, times(1)).find("Fred Clause", 2007);
 	}
 }
 
