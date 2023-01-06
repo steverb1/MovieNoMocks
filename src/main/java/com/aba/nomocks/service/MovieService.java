@@ -10,8 +10,8 @@ public class MovieService {
 		this.movieDao = movieDao;
 	}
 	
-	public void saveMovie(Movie movie) {
-		movieDao.saveMovie(movie);
+	public String saveMovie(Movie movie) {
+		return movieDao.saveMovie(movie);
 	}
 
 	public Movie retrieveMovie(String title, int year) {

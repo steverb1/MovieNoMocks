@@ -85,7 +85,6 @@ public class MovieDao implements ForPersistingMovies {
 		}
 
 		public Movie find(String title, int year) {
-			
 			return new Movie(title, year);
 		}
 	}
