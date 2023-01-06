@@ -16,19 +16,21 @@ public class MovieDaoMockTest {
 		ForWrappingMongo mongoMock = mock(ForWrappingMongo.class);
 		MovieDao dao = new MovieDao(mongoMock);
 		
-		Movie movie = new Movie("Fred Clause", 2007);
+		String movieTitle = "Fred Clause";
+		int movieYear = 2007;
+		Movie movie = new Movie(movieTitle, movieYear);
 		dao.saveMovie(movie );
 		
-		Document aMovie = new Document()
-				.append("title", "Fred Clause")
-				.append("year", 2007);
-		verify(mongoMock, times(1)).insertOne(argThat(new DocumentMatcher(aMovie)));
+		Document movieDocument = new Document()
+				.append("title", movieTitle)
+				.append("year", movieYear);
+		verify(mongoMock, times(1)).insertOne(argThat(new DocumentMatcher(movieDocument)));
 		
-		when(mongoMock.find("Fred Clause", 2007)).thenReturn(aMovie);
-		Movie retrievedMovie = dao.retrieveMovie("Fred Clause", 2007);
-		assertEquals("Fred Clause", retrievedMovie.title);
-		assertEquals(2007, retrievedMovie.year);
-		verify(mongoMock, times(1)).find("Fred Clause", 2007);
+		when(mongoMock.find(movieTitle, movieYear)).thenReturn(movieDocument);
+		Movie retrievedMovie = dao.retrieveMovie(movieTitle, movieYear);
+		assertEquals(movieTitle, retrievedMovie.title);
+		assertEquals(movieYear, retrievedMovie.year);
+		verify(mongoMock, times(1)).find(movieTitle, movieYear);
 	}
 }
 
