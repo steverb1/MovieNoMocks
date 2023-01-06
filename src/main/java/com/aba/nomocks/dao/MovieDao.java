@@ -1,8 +1,5 @@
 package com.aba.nomocks.dao;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.and;
 
@@ -36,24 +33,16 @@ public class MovieDao implements ForPersistingMovies {
 		return new MovieDao(new MongoStub());
 	}
 	
-	public void saveMovie(Movie movie) {
-		String title = movie.title;
-		int year = movie.year;
+	public String saveMovie(Movie movie) {
+		String id = mongo.insertOne(movie);
 		
-		Document aMovie = new Document()
-				.append("_id", new ObjectId())
-				.append("title", title)
-				.append("year", year);
+		lastWrite = new Movie(movie.title, movie.year);
 		
-		InsertOneResult result = mongo.insertOne(aMovie);
-		
-		lastWrite = new Movie(title, year);
+		return id;
 	}
 	
 	public Movie retrieveMovie(String title, int year) {
-		Document document = mongo.find(title, year);
-		
-		return new Movie(document.getString("title"), document.getInteger("year"));
+		return mongo.find(title, year);
 	}
 
 	public Movie getLastWrite() {
@@ -74,33 +63,36 @@ public class MovieDao implements ForPersistingMovies {
 			mongoCollection = database.getCollection(collectionName);;
 		}
 		
-		public InsertOneResult insertOne(Document document) {
-			return mongoCollection.insertOne(document);
+		public String insertOne(Movie movie) {
+			Document document = new Document()
+					.append("_id", new ObjectId())
+					.append("title", movie.title)
+					.append("year", movie.year);
+			InsertOneResult result = mongoCollection.insertOne(document);
+			return result.getInsertedId().toString();
 		}
 
-		public Document find(String title, int year) {
+		public Movie find(String title, int year) {
 			Bson projectionFields = Projections.fields(Projections.include("title", "year"));
-			return mongoCollection.find(and(eq("title", title), eq("year", year))).projection(projectionFields).first();
+			Document document = mongoCollection.find(and(eq("title", title), eq("year", year))).projection(projectionFields).first();
+			return new Movie(document.getString("title"), document.getInteger("year"));
 		}
 	}
 	
 	static class MongoStub implements ForWrappingMongo {
-		public InsertOneResult insertOne(Document document) {
-			return null;
+		public String insertOne(Movie movie) {
+			return new ObjectId().toString();
 		}
 
-		public Document find(String title, int year) {
-			Map<String, Object> fields = new HashMap<String, Object>();
-			fields.put("title", title);
-			fields.put("year", year);
+		public Movie find(String title, int year) {
 			
-			return new Document(fields);
+			return new Movie(title, year);
 		}
 	}
 	
 	interface ForWrappingMongo {
-		InsertOneResult insertOne(Document document);
+		String insertOne(Movie movie);
 
-		Document find(String title, int year);
+		Movie find(String title, int year);
 	}
 }
