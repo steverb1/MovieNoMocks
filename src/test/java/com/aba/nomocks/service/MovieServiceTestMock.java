@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.aba.nomocks.biz.Movie;
@@ -19,8 +20,9 @@ public class MovieServiceTestMock {
 		int movieYear = 1987;
 		
 		Movie movie = new Movie(movieTitle, movieYear);
-		service.saveMovie(movie );
+		String movieId = service.saveMovie(movie );
 		
+		assertTrue(movieId != "");
 		verify(movieDao).saveMovie(movie);
 		
 		Movie testMovie = new Movie(movieTitle, movieYear);
