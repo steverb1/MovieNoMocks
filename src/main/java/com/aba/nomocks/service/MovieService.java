@@ -1,12 +1,11 @@
 package com.aba.nomocks.service;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDao;
 
 public class MovieService {
-	MovieDao movieDao;
+	ForPersistingMovies movieDao;
 	
-	public MovieService(MovieDao movieDao) {
+	public MovieService(ForPersistingMovies movieDao) {
 		this.movieDao = movieDao;
 	}
 	
