@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDao.ForWrappingMongo;
+import com.aba.nomocks.dao.MovieDaoMongo.ForWrappingMongo;
 
 public class MovieDaoMockTest {
 	@Test
 	public void testSaveAndRetrieveMovieWithMock() {
 		ForWrappingMongo mongoMock = mock(ForWrappingMongo.class);
-		MovieDao dao = new MovieDao(mongoMock);
+		MovieDaoMongo dao = new MovieDaoMongo(mongoMock);
 		
 		String movieTitle = "Fred Clause";
 		int movieYear = 2007;

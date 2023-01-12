@@ -6,13 +6,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDao;
-import com.aba.nomocks.dao.MovieDaoMySql;
+import com.aba.nomocks.dao.MovieDaoMongo;
 
 public class MovieServiceTest {
 	@Test
 	public void testSaveMovie() {
-		MovieDao movieDao = MovieDao.createNull();
+		MovieDaoMongo movieDao = MovieDaoMongo.createNull();
 		MovieService service = new MovieService(movieDao);
 		String movieId = service.saveMovie(new Movie("The Kid", 2000));
 		
@@ -23,7 +22,7 @@ public class MovieServiceTest {
 	
 	@Test
 	public void testRetrieveMovie() {
-		MovieDao movieDao = MovieDao.createNull();
+		MovieDaoMongo movieDao = MovieDaoMongo.createNull();
 		MovieService service = new MovieService(movieDao);
 		String movieId = service.saveMovie(new Movie("Return to Me", 2000));
 		assertTrue(movieId != "");

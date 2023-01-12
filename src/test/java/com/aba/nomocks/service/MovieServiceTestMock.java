@@ -8,12 +8,12 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.aba.nomocks.biz.Movie;
-import com.aba.nomocks.dao.MovieDao;
+import com.aba.nomocks.dao.MovieDaoMongo;
 
 public class MovieServiceTestMock {
 	@Test
 	public void canSaveAndRetrieveMovieWithMock() {
-		MovieDao movieDao = Mockito.mock(MovieDao.class);
+		MovieDaoMongo movieDao = Mockito.mock(MovieDaoMongo.class);
 		MovieService service = new MovieService(movieDao);
 		
 		String movieTitle = "The Princess Bride";

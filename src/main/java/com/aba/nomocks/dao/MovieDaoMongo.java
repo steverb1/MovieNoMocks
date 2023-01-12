@@ -16,7 +16,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.InsertOneResult;
 
-public class MovieDao implements ForPersistingMovies {
+public class MovieDaoMongo implements ForPersistingMovies {
 	static String uri = "mongodb://127.0.0.1:27017";
 	static String databaseName = "moviedb";
 	static String collectionName = "movies";
@@ -25,12 +25,12 @@ public class MovieDao implements ForPersistingMovies {
 	
 	private ForWrappingMongo mongo;
 	
-	public static MovieDao create() {
-		return new MovieDao(new MongoWrapper());
+	public static MovieDaoMongo create() {
+		return new MovieDaoMongo(new MongoWrapper());
 	}
 	
-	public static MovieDao createNull() {
-		return new MovieDao(new MongoStub());
+	public static MovieDaoMongo createNull() {
+		return new MovieDaoMongo(new MongoStub());
 	}
 	
 	public String saveMovie(Movie movie) {
@@ -54,7 +54,7 @@ public class MovieDao implements ForPersistingMovies {
 		return lastWrite;
 	}
 	
-	MovieDao(ForWrappingMongo mongo) {
+	MovieDaoMongo(ForWrappingMongo mongo) {
 		this.mongo = mongo;
 	}
 	
