@@ -20,8 +20,11 @@ public class MovieDaoIntegrationTest {
 	
 	@Test
 	public void testSaveMySqlDao() {
-		MovieDaoMySql mySqlDao = MovieDaoMySql.create();
-		String movieId = mySqlDao.saveMovie(new Movie("Fred Clause", 2007));
+		MovieDaoMySql movieDao = MovieDaoMySql.create();
+		String movieId = movieDao.saveMovie(new Movie("Fred Clause", 2007));
 		assertTrue(movieId != "");
+		
+		Movie retrievedMovie = movieDao.retrieveMovie("Fred Clause", 2007);
+		assertEquals("Fred Clause", retrievedMovie.title);
 	}
 }
