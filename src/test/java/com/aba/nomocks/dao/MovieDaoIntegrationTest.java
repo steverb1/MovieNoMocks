@@ -10,7 +10,7 @@ import com.aba.nomocks.biz.Movie;
 public class MovieDaoIntegrationTest {
 	@Test
 	public void testSaveAndRetrieveMovie() {
-		MovieDaoMySql movieDao = MovieDaoMySql.create();
+		MovieDao movieDao = MovieDao.create();
 		String movieId = movieDao.saveMovie(new Movie("The Princess Bride", 1987));
 		assertTrue(movieId != "");
 		

@@ -12,7 +12,7 @@ import com.aba.nomocks.dao.MovieDaoMySql;
 public class MovieServiceTest {
 	@Test
 	public void testSaveMovie() {
-		MovieDaoMySql movieDao = MovieDaoMySql.createNull();
+		MovieDao movieDao = MovieDao.createNull();
 		MovieService service = new MovieService(movieDao);
 		String movieId = service.saveMovie(new Movie("The Kid", 2000));
 		
@@ -23,7 +23,7 @@ public class MovieServiceTest {
 	
 	@Test
 	public void testRetrieveMovie() {
-		MovieDaoMySql movieDao = MovieDaoMySql.createNull();
+		MovieDao movieDao = MovieDao.createNull();
 		MovieService service = new MovieService(movieDao);
 		String movieId = service.saveMovie(new Movie("Return to Me", 2000));
 		assertTrue(movieId != "");
