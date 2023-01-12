@@ -34,13 +34,15 @@ public class MovieDaoMongo implements ForPersistingMovies {
 	}
 	
 	public String saveMovie(Movie movie) {
+		String title = movie.title;
+		int year = movie.year;
 		Document document = new Document()
 				.append("_id", new ObjectId())
-				.append("title", movie.title)
-				.append("year", movie.year);
+				.append("title", title)
+				.append("year", year);
 		String id = mongo.insertOne(document);
 		
-		lastWrite = new Movie(movie.title, movie.year);
+		lastWrite = new Movie(title, year);
 		
 		return id;
 	}
