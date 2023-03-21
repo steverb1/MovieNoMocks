@@ -1,2 +1,13 @@
 To run Pitest: mvn -Ppitest test-compile
 
+Demo script:
+- inject bug in MovieDaoMongo
+  - Nullable test will catch @ service level
+  - Mock test will catch @ dao level
+- MovieServiceTest: swap to MovieDaoMySql
+  - All tests still pass
+- MovieDaoMockTest: Swap to MovieDaoMySql
+  - doesn't compile
+- Compare cleanness of tests
+- Show Pitest results
+
