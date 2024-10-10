@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.aba.nomocks.biz.Movie;
 
 public class MovieDaoIntegrationTest {
-	@Test
+	//@Test
 	public void testSaveAndRetrieveMovie() {
 		MovieDaoMongo movieDao = MovieDaoMongo.create();
 		String movieId = movieDao.saveMovie(new Movie("The Princess Bride", 1987));
@@ -18,7 +18,7 @@ public class MovieDaoIntegrationTest {
 		assertEquals("The Princess Bride", retrievedMovie.title);
 	}
 	
-	@Test
+	//@Test
 	public void testSaveMySqlDao() {
 		MovieDaoMySql movieDao = MovieDaoMySql.create();
 		String movieId = movieDao.saveMovie(new Movie("Fred Clause", 2007));

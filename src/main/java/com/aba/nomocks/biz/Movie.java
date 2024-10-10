@@ -5,6 +5,10 @@ public class Movie {
 		this.title = title;
 		this.year = year;
 	}
+	public Movie() {
+
+	}
+
 	public String title;
 	public int year;
 }
