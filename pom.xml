@@ -66,6 +66,7 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
+    <finalName>movie-api</finalName>
   </build>
     <profiles>
       <profile>
