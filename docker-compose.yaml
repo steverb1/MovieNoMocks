@@ -1,0 +1,11 @@
+services:
+  app-service:
+    build: .
+    container_name: "app-container"
+    ports:
+      - 5001:5001
+  mongo-service:
+    image: mongo:latest
+    container_name: "mongo-container"
+    ports:
+      - 27017:27017

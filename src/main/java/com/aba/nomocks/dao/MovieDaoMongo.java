@@ -17,7 +17,7 @@ import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.InsertOneResult;
 
 public class MovieDaoMongo implements ForPersistingMovies {
-	static String uri = "mongodb://127.0.0.1:27017";
+	static String uri = "mongodb://mongo-service:27017";
 	static String databaseName = "moviedb";
 	static String collectionName = "movies";
 	
