@@ -16,8 +16,8 @@ public class MovieServiceTest {
 		String movieId = service.saveMovie(new Movie("The Kid", 2000));
 		
 		assertTrue(movieId != "");
-		assertEquals("The Kid", movieDao.getLastWrite().title);
-		assertEquals(2000, movieDao.getLastWrite().year);
+		assertEquals("The Kid", MovieDaoMongo.getLastWrite().title);
+		assertEquals(2000, MovieDaoMongo.getLastWrite().year);
 	}
 	
 	@Test

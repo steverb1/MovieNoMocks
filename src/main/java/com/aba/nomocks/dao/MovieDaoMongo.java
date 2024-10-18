@@ -21,7 +21,7 @@ public class MovieDaoMongo implements ForPersistingMovies {
 	static String databaseName = "moviedb";
 	static String collectionName = "movies";
 	
-	private Movie lastWrite;
+	private static Movie lastWrite;
 	
 	private ForWrappingMongo mongo;
 	
@@ -30,6 +30,7 @@ public class MovieDaoMongo implements ForPersistingMovies {
 	}
 	
 	public static MovieDaoMongo createNull() {
+		lastWrite = null;
 		return new MovieDaoMongo(new MongoStub());
 	}
 	
@@ -49,10 +50,13 @@ public class MovieDaoMongo implements ForPersistingMovies {
 	
 	public Movie retrieveMovie(String title, int year) {
 		Document document = mongo.find(title, year);
+		if (document == null) {
+			return null;
+		}
 		return new Movie(document.getString("title"), document.getInteger("year"));
 	}
 
-	public Movie getLastWrite() {
+	public static Movie getLastWrite() {
 		return lastWrite;
 	}
 	
@@ -87,10 +91,17 @@ public class MovieDaoMongo implements ForPersistingMovies {
 		}
 
 		public Document find(String title, int year) {
-			return new Document()
-					.append("_id", new ObjectId())
-					.append("title", title)
-					.append("year", year);
+			Movie lastMovie = getLastWrite();
+
+			if (lastMovie == null || (!lastMovie.title.equals(title) || lastMovie.year != year)) {
+				return null;
+			}
+			else {
+				return new Document()
+						.append("_id", new ObjectId())
+						.append("title", title)
+						.append("year", year);
+			}
 		}
 	}
 	

@@ -14,6 +14,6 @@ public class MovieDaoTest {
 		Movie movie = new Movie("test", 1984);
 		String id = movieDao.saveMovie(movie);
 		
-		assertEquals("test", movieDao.getLastWrite().title);
+		assertEquals("test", MovieDaoMongo.getLastWrite().title);
 	}
 }
