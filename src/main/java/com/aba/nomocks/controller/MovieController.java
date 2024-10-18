@@ -11,11 +11,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/movies")
 public class MovieController
 {
+    MovieService service;
+
+    MovieController(MovieService movieService) {
+        this.service = movieService;
+    }
+
+    MovieController() {
+        MovieDaoMongo movieDao = MovieDaoMongo.create();
+        service = new MovieService(movieDao);
+    }
+
     @PostMapping()
     public ResponseEntity<String> saveMovie(@RequestBody Movie movie) {
-        MovieDaoMongo movieDao = MovieDaoMongo.create();
-        MovieService service = new MovieService(movieDao);
-
         String movieId = service.saveMovie(movie);
 
         return new ResponseEntity<>(movieId, HttpStatus.CREATED);
@@ -23,8 +31,6 @@ public class MovieController
 
     @GetMapping
     public ResponseEntity<Movie> retrieveMovie(@RequestParam(name = "title") String title, @RequestParam(name = "year") int year) {
-        MovieDaoMongo movieDao = MovieDaoMongo.create();
-        MovieService service = new MovieService(movieDao);
         Movie movie = service.retrieveMovie(title, year);
         if (movie != null) {
             return new ResponseEntity<>(movie, HttpStatus.OK);
